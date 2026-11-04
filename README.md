@@ -133,6 +133,17 @@ Nginx acts as the frontend reverse proxy and forwards incoming requests to the T
 | `rabbitmq_provision.sh` | Installs RabbitMQ and configures its user |
 | `memcache_provision.sh` | Installs and configures Memcached |
 
+## Screenshots
+
+### Application Dashboard
+![Application Dashboard](screenshots/application-dashboard.png)
+
+### Vagrant Infrastructure
+![Vagrant Status](screenshots/vagrant-status.png)
+
+### Multi-Tier Architecture
+![Architecture](screenshots/architecture.png)
+
 ## Validation
 
 The deployment was tested through the following checks:
