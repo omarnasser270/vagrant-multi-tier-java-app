@@ -1,433 +1,207 @@
-\# Vagrant Multi-Tier Java Web Application
+# Vagrant Multi-Tier Java Web Application
 
+A multi-tier Java web application deployed on a virtualized infrastructure using Vagrant and VirtualBox.
 
+This project automates the provisioning and configuration of five Ubuntu virtual machines running Nginx, Apache Tomcat, MariaDB, RabbitMQ, and Memcached.
 
-A multi-tier Java web application deployed on a local virtualized infrastructure using \*\*Vagrant\*\*, \*\*VirtualBox\*\*, \*\*Nginx\*\*, \*\*Apache Tomcat\*\*, \*\*MariaDB\*\*, \*\*RabbitMQ\*\*, and \*\*Memcached\*\*.
-
-
-
-The project demonstrates infrastructure provisioning, service configuration, reverse proxy setup, and communication between multiple application tiers.
-
-
-
-\## Architecture
-
-
+## Architecture
 
 ```mermaid
-
 flowchart TD
-
-&#x20;   A\["Client / Web Browser"] --> B\["Nginx - web01"]
-
-&#x20;   B --> C\["Apache Tomcat - app01"]
-
-&#x20;   C --> D\[("MariaDB - db01")]
-
-&#x20;   C --> E\["RabbitMQ - rmq01"]
-
-&#x20;   C --> F\["Memcached - mc01"]
-
+    A[Client / Browser] --> B[Nginx - web01]
+    B --> C[Tomcat - app01]
+    C --> D[(MariaDB - db01)]
+    C --> E[RabbitMQ - rmq01]
+    C --> F[Memcached - mc01]
 ```
 
+## Infrastructure
 
-
-\### Infrastructure Overview
-
-
-
-The infrastructure consists of five Ubuntu virtual machines:
-
-
-
-| VM | Role | IP Address | Service Port | RAM |
-
+| VM | Role | IP Address | Port | RAM |
 |---|---|---|---|---|
-
-| web01 | Web Server / Reverse Proxy | 192.168.56.11 | 80 | 1 GB |
-
-| app01 | Application Server | 192.168.56.12 | 8080 | 2 GB |
-
+| web01 | Nginx Reverse Proxy | 192.168.56.11 | 80 | 1 GB |
+| app01 | Java Application Server | 192.168.56.12 | 8080 | 2 GB |
 | rmq01 | Message Broker | 192.168.56.13 | 5672 | 1 GB |
-
-| mc01 | Caching Server | 192.168.56.14 | 11211 | 1 GB |
-
+| mc01 | Cache Server | 192.168.56.14 | 11211 | 1 GB |
 | db01 | Database Server | 192.168.56.15 | 3306 | 2 GB |
 
+**Total allocated RAM:** 7 GB
 
+## Technology Stack
 
-\*\*Total allocated memory:\*\* 7 GB
+- Virtualization: VirtualBox
+- Provisioning: Vagrant
+- Operating System: Ubuntu 22.04 LTS
+- Web Server: Nginx
+- Application Server: Apache Tomcat 10.1.26
+- Runtime: Java 17
+- Build Tool: Apache Maven
+- Database: MariaDB
+- Message Broker: RabbitMQ
+- Caching: Memcached
+- Automation: Bash
 
-
-
-\## Technology Stack
-
-
-
-\- \*\*Virtualization:\*\* VirtualBox
-
-\- \*\*Infrastructure Provisioning:\*\* Vagrant
-
-\- \*\*Operating System:\*\* Ubuntu 22.04 LTS
-
-\- \*\*Web Server:\*\* Nginx
-
-\- \*\*Application Server:\*\* Apache Tomcat 10.1.26
-
-\- \*\*Programming Runtime:\*\* Java 17
-
-\- \*\*Build Tool:\*\* Apache Maven
-
-\- \*\*Database:\*\* MariaDB
-
-\- \*\*Message Broker:\*\* RabbitMQ
-
-\- \*\*Caching:\*\* Memcached
-
-\- \*\*Automation:\*\* Bash Shell Scripts
-
-
-
-\## Project Structure
-
-
+## Project Structure
 
 ```text
-
 01-vagrant-multi-tier-java-app/
-
-Ã¢â€â€š
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Vagrantfile
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ config.env.example
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ .gitignore
-
-Ã¢â€â€š
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ db\_provision.sh
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ memcache\_provision.sh
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ nginx\_provision.sh
-
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ rabbitmq\_provision.sh
-
-Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ tomcat\_provision.sh
-
+├── Vagrantfile
+├── README.md
+├── .gitignore
+├── config.env.example
+├── db_provision.sh
+├── memcache_provision.sh
+├── nginx_provision.sh
+├── rabbitmq_provision.sh
+└── tomcat_provision.sh
 ```
 
+## Prerequisites
 
+Install the following tools on your host machine:
 
-\## Prerequisites
+- [VirtualBox](https://www.virtualbox.org/)
+- [Vagrant](https://developer.hashicorp.com/vagrant/install)
+- Git
 
-
-
-Make sure the following tools are installed on your host machine:
-
-
-
-\- \[VirtualBox](https://www.virtualbox.org/)
-
-\- \[Vagrant](https://developer.hashicorp.com/vagrant/install)
-
-\- Git
-
-\- Vagrant Host Manager plugin
-
-
-
-Install the Host Manager plugin:
-
-
+Install the Vagrant Host Manager plugin:
 
 ```bash
-
 vagrant plugin install vagrant-hostmanager
-
 ```
 
+## Deployment
 
-
-\## Deployment Guide
-
-
-
-\### 1. Clone the Repository
-
-
+### 1. Clone the Repository
 
 ```bash
-
-git clone <YOUR\_REPOSITORY\_URL>
-
-cd 01-vagrant-multi-tier-java-app
-
+git clone https://github.com/omarnasser270/vagrant-multi-tier-java-app.git
+cd vagrant-multi-tier-java-app
 ```
 
+### 2. Configure Environment Variables
 
-
-\### 2. Configure Environment Variables
-
-
-
-Create your local configuration file from the example:
-
-
-
-\*\*PowerShell:\*\*
-
-
+Create your local configuration file:
 
 ```powershell
-
 Copy-Item config.env.example config.env
-
 notepad config.env
-
 ```
 
-
-
-Update the values with your own credentials:
-
-
+Update the credentials:
 
 ```env
+DB_NAME=accounts
+DB_USER=admin
+DB_PASS=YOUR_DB_PASSWORD
 
-DB\_NAME=accounts
-
-DB\_USER=admin
-
-DB\_PASS=YOUR\_DB\_PASSWORD
-
-
-
-RMQ\_USER=test
-
-RMQ\_PASS=YOUR\_RABBITMQ\_PASSWORD
-
+RMQ_USER=test
+RMQ_PASS=YOUR_RABBITMQ_PASSWORD
 ```
 
+Never commit `config.env` or expose real credentials.
 
-
-\*\*Important:\*\* Never commit `config.env` or expose real credentials in your repository.
-
-
-
-\### 3. Start the Infrastructure
-
-
-
-Run:
-
-
+### 3. Provision the Infrastructure
 
 ```bash
-
 vagrant up
-
 ```
 
+Vagrant will create and configure all five virtual machines using the provisioning scripts.
 
-
-Vagrant will create the five virtual machines and execute their provisioning scripts.
-
-
-
-\### 4. Check VM Status
-
-
+### 4. Verify VM Status
 
 ```bash
-
 vagrant status
-
 ```
 
+### 5. Access the Application
 
-
-\### 5. Access the Application
-
-
-
-Open your browser and navigate to:
-
-
-
-```text
+Open the following address in your browser:
 
 http://192.168.56.11
 
-```
+Nginx acts as the frontend reverse proxy and forwards incoming requests to the Tomcat application server.
 
+## Provisioning Scripts
 
-
-Nginx receives incoming HTTP requests and forwards them to the Tomcat application server.
-
-
-
-\## Provisioning Scripts
-
-
-
-Each virtual machine has a dedicated provisioning script:
-
-
-
-| Script | Responsibility |
-
+| Script | Description |
 |---|---|
+| `nginx_provision.sh` | Installs and configures Nginx reverse proxy |
+| `tomcat_provision.sh` | Installs Java, Maven, Tomcat, builds and deploys the application |
+| `db_provision.sh` | Installs MariaDB and configures the database |
+| `rabbitmq_provision.sh` | Installs RabbitMQ and configures its user |
+| `memcache_provision.sh` | Installs and configures Memcached |
 
-| `nginx\_provision.sh` | Installs and configures Nginx as a reverse proxy |
+## Validation
 
-| `tomcat\_provision.sh` | Installs Java, Maven, and Tomcat; builds and deploys the Java application |
+The deployment was tested through the following checks:
 
-| `db\_provision.sh` | Installs MariaDB and configures the application database and user |
+- All five virtual machines started successfully.
+- Required services were running.
+- Network connectivity between infrastructure components was checked.
+- Tomcat responded on port 8080.
+- Nginx successfully forwarded HTTP requests to Tomcat.
+- The application was accessible through the Nginx frontend.
+- Application login and dashboard access were tested.
 
-| `rabbitmq\_provision.sh` | Installs RabbitMQ and configures its application user |
-
-| `memcache\_provision.sh` | Installs and configures Memcached |
-
-
-
-\## Validation and Testing
-
-
-
-The following checks were performed during deployment:
-
-
-
-\- All five virtual machines started successfully.
-
-\- Required services were installed and running.
-
-\- Network connectivity between the infrastructure components was checked.
-
-\- Application server responded on port `8080`.
-
-\- Nginx reverse proxy successfully forwarded requests to Tomcat.
-
-\- The application was accessible through the Nginx frontend.
-
-\- Application login and dashboard access were tested.
-
-
-
-Example HTTP check:
-
-
+Test the frontend:
 
 ```bash
-
 curl -I http://192.168.56.11
-
 ```
 
-
-
-Expected response:
-
-
+Expected HTTP response:
 
 ```text
-
-HTTP/1.1 200 OK
-
+HTTP/1.1 200
 ```
 
-
-
-\## Application Source
-
-
+## Application Source
 
 The Java application is based on the VProfile project:
 
+[https://github.com/hkhcoder/vprofile-project](https://github.com/hkhcoder/vprofile-project)
 
-
-\[https://github.com/hkhcoder/vprofile-project](https://github.com/hkhcoder/vprofile-project)
-
-
-
-The provisioning process clones the `local` branch, configures the application properties, builds the project using Maven, and deploys the generated WAR file to Tomcat.
-
-
+During provisioning, the Tomcat script clones the `local` branch, configures the application properties, builds the project using Maven, and deploys the generated WAR file.
 
 The application source is retrieved during provisioning and is not included in this repository.
 
+Please respect the original project's license and attribution requirements.
 
+## Security Considerations
 
-Please refer to the original project's license and attribution requirements.
+- Credentials are stored in the local `config.env` file.
+- `config.env` is excluded from Git using `.gitignore`.
+- `config.env.example` contains placeholders only.
+- The RabbitMQ administrator account is intended for this lab environment.
+- Services communicate over the Vagrant private network.
 
+This project is intended for educational and demonstration purposes. It is not production-hardened.
 
+Production environments should use secrets management, TLS, restricted network access, and least-privilege accounts.
 
-\## Security Considerations
+## Known Limitations
 
+- Provisioning scripts are not fully idempotent.
+- The Tomcat provisioning script removes and reinstalls the Tomcat directory during provisioning.
+- Maven builds currently use `-DskipTests`.
 
+## Learning Outcomes
 
-\- Credentials are stored locally in `config.env`.
+- Designing a multi-tier application architecture.
+- Automating virtual machine provisioning with Vagrant.
+- Configuring Linux services using Bash.
+- Deploying Java applications on Apache Tomcat.
+- Configuring Nginx as a reverse proxy.
+- Integrating database, messaging, and caching services.
+- Managing application configuration and credentials.
+- Troubleshooting infrastructure and network connectivity.
 
-\- `config.env` is excluded through `.gitignore`.
-
-\- `config.env.example` contains placeholders only.
-
-\- The RabbitMQ administrator account is intended for this local lab environment.
-
-\- Services are configured for communication over the Vagrant private network.
-
-
-
-\*\*This project is intended for learning and demonstration purposes. It is not a production-hardened deployment.\*\* Production environments should use a dedicated secrets-management solution, restricted network access, TLS, least-privilege accounts, and hardened service configurations.
-
-
-
-\## Known Limitations
-
-
-
-\- Provisioning scripts are designed for initial lab deployment and are not fully idempotent.
-
-\- The Tomcat provisioning script removes and reinstalls the existing Tomcat directory during provisioning.
-
-\- The application build currently skips automated tests using Maven's `-DskipTests` option.
-
-
-
-\## Learning Outcomes
-
-
-
-Through this project, I practiced:
-
-
-
-\- Designing a multi-tier application architecture.
-
-\- Automating VM creation with Vagrant.
-
-\- Configuring Linux services using Bash.
-
-\- Deploying a Java application on Apache Tomcat.
-
-\- Configuring Nginx as a reverse proxy.
-
-\- Setting up database, messaging, and caching services.
-
-\- Managing application configuration and credentials.
-
-\- Troubleshooting connectivity and service-level issues.
-
-
-
-\---
-
-
+---
 
 **Project Type:** DevOps / Infrastructure Automation
 
 **Environment:** Local Virtualized Lab
 
-\*\*Status:\*\* Deployed and Tested
+**Status:** Deployed and Tested
