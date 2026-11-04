@@ -1,0 +1,30 @@
+﻿# Vagrant
+.vagrant/
+
+# Environment and secrets
+.env
+.env.*
+config.env
+secrets.env
+
+# SSH keys and certificates
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# Build artifacts
+target/
+*.war
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
