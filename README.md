@@ -136,13 +136,16 @@ Nginx acts as the frontend reverse proxy and forwards incoming requests to the T
 ## Screenshots
 
 ### Application Dashboard
-![Application Dashboard](screenshots/application-dashboard.png)
+![Application Dashboard](<img width="1920" height="1080" alt="application-dashboard png" src="https://github.com/user-attachments/assets/dad1dffc-c362-4391-81b4-92fd29a3c46b" />
+)
 
 ### Vagrant Infrastructure
-![Vagrant Status](screenshots/vagrant-status.png)
+![Vagrant Status](<img width="1917" height="1035" alt="vagrant-status png" src="https://github.com/user-attachments/assets/47421e34-eb87-4ca1-9655-c6b9ab0d882a" />
+)
 
 ### Multi-Tier Architecture
-![Architecture](screenshots/architecture.png)
+![Architecture](<img width="2752" height="1536" alt="Multi-Tier Architecture" src="https://github.com/user-attachments/assets/446cc3e7-2ee4-4ed1-8b01-c312f0287c82" />
+)
 
 ## Validation
 
